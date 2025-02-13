@@ -1,4 +1,5 @@
 module.exports = async ({ github, context, processEnv }) => {
+    console.log(context.payload.pull_request);
     const prNumber = context.payload.pull_request.number;
     const { owner, repo } = context.repo;
     const { DEVELOPERS, TEAMLEADS, ACTION_NAME, CHECK_RESULT } = processEnv;
