@@ -18,7 +18,7 @@ on:
 
 jobs:
   assign_reviewers:
-    if: ${{ (inputs.pr_result == 'success' || github.event.action == 'ready_for_review' || github.event.action == 'submitted') && github.event.pull_request.draft == false }}
+    if: ${{ (inputs.pr_result == 'success' || github.event.action == 'ready_for_review' || github.event.action == 'submitted') && github.event.pull_request.draft == false && github.event.action != 'checks_requested' }}
     runs-on: ubuntu-latest
     env:
       TEAMLEADS: ${{ vars.TEAMLEADS }}
