@@ -76,15 +76,6 @@ jobs:
     outputs:
       should_notify: ${{ steps.check.outputs.should_notify }}  
     steps:
-      - name: Validate ServiceNow Ticket
-        uses: santandergroup-uk/alm-openshift-reusable-workflows/.github/actions/snow@lts
-        with:
-          snow-reference: ${{ vars.SNOW_REFERENCE }}
-          client-secret: ${{ secrets.SDLCAUTO_SNOW_CLIENT_SECRET }}
-          private-key: ${{ secrets.SDLCAUTO_SNOW_JWT_PRIVATE_KEY }}
-          project-name: ${{ vars.SNOW_PROJECT_NAME }}
-          deployment-type: "SALESFORCE"
-        if: ${{ vars.IS_DEPLOY_DESTINATION_PRODUCTION == 'true' }}
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
