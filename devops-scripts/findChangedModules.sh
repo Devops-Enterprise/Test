@@ -4,7 +4,8 @@ git config --global --add safe.directory /__w/mortgagesfdc-homes-crm/mortgagesfd
 
 source_to_check_changes="origin/$GITHUB_BASE_REF"
 current_branch="origin/${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}"
-
+echo "source_to_check_changes: $source_to_check_changes"
+echo "current_branch: $current_branch"
 if [ -n "$1" ]; then
   source_to_check_changes=$1
 fi
