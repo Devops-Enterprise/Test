@@ -87,7 +87,7 @@ jobs:
       - name: Validate src-temp folder changes
         id: temp_folder
         run: | 
-          echo "good"
+          echo "good from test main-workflow"
 
 #      - name: Get npm directory
 #        id: npm-dir
