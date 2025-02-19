@@ -68,7 +68,7 @@ jobs:
     needs:
       - get-changed-modules
     if: ${{ inputs.should_deploy_or_validate == 'deploy' && needs.get-changed-modules.outputs.changed_modules != '' }}
-    uses: ./.github/workflows/validate-manual.yml
+    uses: ./.github/workflows/deploy-manual.yml
     with:
       environment: ${{ inputs.environment }}
       modules_to_deploy: ${{ needs.get-changed-modules.outputs.changed_modules }}
