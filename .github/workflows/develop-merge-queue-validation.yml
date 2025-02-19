@@ -27,6 +27,7 @@ jobs:
       - name: Print
         run: |
           echo "Full Name: ${{ github.event.pull_request.user.name }}"
+          echo "Full Name: ${{ github.event.sender.name }}"
           echo "actor: ${{ github.actor }}"
           echo "${{ github.event_name }}"
           echo "${{ github.event.action }}"
