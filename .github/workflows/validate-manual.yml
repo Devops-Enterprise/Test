@@ -90,11 +90,11 @@ jobs:
           echo "${{ github.event_name }}"
           echo "${{ github.event.action }}"
       
-      - name: Validate src-temp folder changes
-        id: temp_folder
-        run: |
-          chmod +x ./devops-scripts/tempFolder.sh
-          ./devops-scripts/tempFolder.sh
+      # - name: Validate src-temp folder changes
+      #   id: temp_folder
+      #   run: |
+      #     chmod +x ./devops-scripts/tempFolder.sh
+      #     ./devops-scripts/tempFolder.sh
           
       - name: Authenticate
         id: auth
