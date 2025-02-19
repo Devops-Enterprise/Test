@@ -85,6 +85,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Print
+        run: |
+          echo "${{ github.event_name }}"
+          echo "${{ github.event.action }}"
+      
       - name: Validate src-temp folder changes
         id: temp_folder
         run: |
