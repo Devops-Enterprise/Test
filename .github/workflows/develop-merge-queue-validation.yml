@@ -24,8 +24,10 @@ jobs:
         with:
           fetch-depth: 0
 
-#      - name: Print
-#        run: |
+      - name: Print
+        run: |
+          echo "${{ github.event_name }}"
+          echo "${{ github.event.action }}"
 #          echo ${{ github.event.merge_group.base_ref }}
 #          echo ${{ github.event.merge_group }}
 #          echo ${{ github }}
@@ -75,7 +77,7 @@ jobs:
     needs:
       - get-changed-modules
     if: ${{ inputs.should_deploy_or_validate == 'deploy' && needs.get-changed-modules.outputs.changed_modules != '' }}
-    uses: ./.github/workflows/deploy-manual.yml
+    uses: ./.github/workflows/validate-manual.yml
     with:
       environment: ${{ inputs.environment }}
       modules_to_deploy: ${{ needs.get-changed-modules.outputs.changed_modules }}
