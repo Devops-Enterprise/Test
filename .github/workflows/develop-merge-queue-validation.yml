@@ -26,6 +26,7 @@ jobs:
 
       - name: Print
         run: |
+          echo "actor: ${{ github.actor }}"
           echo "${{ github.event_name }}"
           echo "${{ github.event.action }}"
 
