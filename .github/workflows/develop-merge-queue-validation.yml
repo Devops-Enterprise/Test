@@ -26,9 +26,11 @@ jobs:
 
       - name: Print
         run: |
-          echo "Full Name: ${{ github.event.pull_request.user.name }}"
-          echo "Full Name: ${{ github.event.sender.name }}"
-          echo "actor: ${{ github.actor }}"
+          USERNAME=${{ github.actor }}
+          RESPONSE=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/users/$USERNAME)
+          FULL_NAME=$(echo "$RESPONSE" | jq -r '.name')
+          echo "USERNAME = $USERNAME"
+          echo "User full name: $FULL_NAME"
           echo "${{ github.event_name }}"
           echo "${{ github.event.action }}"
 
