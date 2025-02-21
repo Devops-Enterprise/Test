@@ -24,11 +24,15 @@ jobs:
         with:
           fetch-depth: 0
 
-#      - name: Print
-#        run: |
-#          echo ${{ github.event.merge_group.base_ref }}
-#          echo ${{ github.event.merge_group }}
-#          echo ${{ github }}
+      - name: Print
+        run: |
+          USERNAME=${{ github.actor }}
+          RESPONSE=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/users/$USERNAME)
+          FULL_NAME=$(echo "$RESPONSE" | jq -r '.name')
+          echo "USERNAME = $USERNAME"
+          echo "User full name: $FULL_NAME"
+          echo "${{ github.event_name }}"
+          echo "${{ github.event.action }}"
 
       - name: Set base branch
         id: set_base_branch
@@ -63,12 +67,6 @@ jobs:
       modules_to_validate: ${{ needs.get-changed-modules.outputs.changed_modules }}
       base_ref: origin/${{ github.base_ref }}
     secrets: inherit
-
-#  validate-ci-org:
-#    name: Validate CI-Org
-#    if: ${{ inputs.should_deploy_or_validate == 'validate' }}
-#    uses: ./.github/workflows/pr-ci-org-validation.yml
-#    secrets: inherit
 
   deploy-to-qa:
     name: Deploy to ${{ inputs.environment }}

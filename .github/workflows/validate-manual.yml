@@ -78,6 +78,7 @@ jobs:
       IS_RELEASE_BRANCH: ${{ inputs.is_release_branch }}
     outputs:
       should_notify: ${{ steps.check.outputs.should_notify }} 
+      failed_job: ${{ steps.check.outputs.failed_job }}
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
@@ -87,7 +88,9 @@ jobs:
       - name: Validate src-temp folder changes
         id: temp_folder
         run: | 
-          echo "good"
+          echo "ok"
+          # chmod +x ./devops-scripts/tempFolder.sh
+          # ./devops-scripts/tempFolder.sh
 
 #      - name: Get npm directory
 #        id: npm-dir
@@ -136,7 +139,7 @@ jobs:
 #        run: |
 #          chmod +x ./devops-scripts/runFlowScanner.sh
 #          ./devops-scripts/runFlowScanner.sh ${{ inputs.modules_to_validate }}
-#
+
 #      - name: Authenticate
 #        id: auth
 #        env:
@@ -144,7 +147,7 @@ jobs:
 #        run:  |
 #          chmod +x ./devops-scripts/authenticate.sh
 #          ./devops-scripts/authenticate.sh --set-default
-#
+          
 #      - name: Generate Delta Package for General Sources
 #        run: |
 #          sf sgd source delta --from origin/${{ inputs.base_ref }} --output ./package/src --source ./src --ignore-destructive .destructiveignore
@@ -160,7 +163,7 @@ jobs:
 #          ./devops-scripts/setApexUnitTestsToRun.sh "${{ inputs.test_level || vars.RELEASE_UNIT_TEST_LEVEL }}" "${{ inputs.specified_tests }}" # Set TEST_LEVEL and SPECIFIED_TESTS to GITHUB_ENV
 #
 #      - name: Validate Omni Studio Changes on ${{ inputs.environment }}
-#        if: ${{ (inputs.modules_to_validate == '' || contains(inputs.modules_to_validate, 'omni-studio')) && env.IS_OMNI_STUDIO_ENABLED == 'true' }}
+#        if: ${{ contains( inputs.modules_to_validate, 'src-omni/omni-studio/') && env.IS_OMNI_STUDIO_ENABLED == 'true' }}
 #        id: validate_omni_changes
 #        run: |
 #          chmod +x ./devops-scripts/runOmniStudioValidation.sh
@@ -193,7 +196,9 @@ jobs:
 #      - name: Check failure
 #        id: check
 #        if: failure() && (steps.auth.outcome == 'failure' || steps.cancel.outcome == 'failure')
-#        run: echo "should_notify=true" >> $GITHUB_OUTPUT
+#        run: |
+#          echo "should_notify=true" >> $GITHUB_OUTPUT
+#          echo "failed_job=${{ github.job }}" >> $GITHUB_OUTPUT
 #
 #  notify:
 #    runs-on: ubuntu-latest
@@ -202,6 +207,14 @@ jobs:
 #    steps:
 #      - uses: actions/checkout@v4
 #
+#      - name: Get full name
+#        run: |
+#          USERNAME=${{ github.actor }}
+#          RESPONSE=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/users/$USERNAME)
+#          FULL_NAME=$(echo "$RESPONSE" | jq -r '.name')
+#          echo "FULL_NAME=$FULL_NAME" >> $GITHUB_ENV
+#          echo "User full name: $FULL_NAME"
+#
 #      - name: Send Teams notification
 #        if: ${{ needs.validate-changes.outputs.should_notify == 'true' }}
 #        run: |
@@ -209,7 +222,9 @@ jobs:
 #          ./devops-scripts/runTeamsNotification.sh
 #        env:
 #          TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
-#          GITHUB_REF: ${{ github.ref }}
+#          GITHUB_BRANCH: ${{ github.head_ref || github.ref_name }}
 #          GITHUB_URL: ${{ github.server_url }}
 #          GITHUB_REPO: ${{ github.repository }}
 #          GITHUB_RUN: ${{ github.run_id }}
+#          JOB_NAME: ${{ needs.validate-changes.outputs.failed_job }}
+#          PR_LINK: ${{ github.event.pull_request.html_url }}

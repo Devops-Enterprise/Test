@@ -9,9 +9,13 @@ on:
       - '.github/workflows/**'
       - 'data/**'
       - 'config/**'
+      - 'src-omni/**'
+      - 'runbook/files/**'
+      - 'src-temp/**'
     branches:
+      - develop
+      - develop/*
       - main
-
   merge_group:
     types: [checks_requested]
 
@@ -24,6 +28,6 @@ jobs:
     name: 'Merge Queue'
     uses: ./.github/workflows/develop-merge-queue-validation.yml
     with:
-      environment: 'MaxQA'
+      environment: ${{ github.base_ref == 'develop/able' && 'AbleQA' || 'MaxQA' }}
       should_deploy_or_validate: ${{ github.event_name == 'pull_request' && 'validate' || 'deploy' }}
     secrets: inherit
