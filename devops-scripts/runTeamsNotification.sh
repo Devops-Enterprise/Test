@@ -13,7 +13,7 @@ payload=$(cat <<EOF
                         {"name": "Failed job:", "value": "$JOB_NAME"},
                         {"name": "Author:", "value": "$FULL_NAME"},
                         {"name": "Branch/Tag:", "value": "$GITHUB_BRANCH"},
-                        {"name": "PR Link:", "value": "${PR_LINK:-Not a PR (wokflow triggered by ${GITHUB_EVENT_NAME:-'-'})}"},
+                        {"name": "PR Link:", "value": "${PR_LINK:-Not a PR, wokflow triggered by ${GITHUB_EVENT_NAME:-'-'} event}"},
                         {"name": "Action URL:", "value": "$GITHUB_URL/$GITHUB_REPO/actions/runs/$GITHUB_RUN"}
                       ],
                 "markdown": true
