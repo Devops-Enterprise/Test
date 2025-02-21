@@ -213,16 +213,10 @@ jobs:
           USERNAME=${{ github.actor }}
           RESPONSE=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/users/$USERNAME)
           FULL_NAME=$(echo "$RESPONSE" | jq -r '.name')
-          echo "FULL_NAME=${FULL_NAME:-$USERNAME}" >> $GITHUB_ENV
+          echo "FULL_NAME=$FULL_NAME" >> $GITHUB_ENV
           SQUAD_NAME=$(echo "$SQUAD" | grep -iE " = .*\\b$USERNAME\\b" | awk -F' =' '{print $1}')
           echo "SQUAD_NAME=${SQUAD_NAME}" >> $GITHUB_ENV
-          COMMIT_SHA="${{ github.event.merge_group.head_sha }}"
-          PR_RESPONSE=$(curl -s -H "Authorization: token '${{ secrets.GITHUB_TOKEN }}'" \
-          "https://api.github.com/search/issues?q=$COMMIT_SHA+repo:${{ github.repository }}+is:pr")
-          PR_LINK=$(echo "$PR_RESPONSE" | jq -r '.items[0].html_url')
-          echo "$PR_LINK"
 
-      
       - name: Send Teams notification
         if: ${{ needs.deploy-changes.outputs.should_notify == 'true' }}
         run: |
