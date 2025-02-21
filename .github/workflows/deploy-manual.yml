@@ -209,6 +209,8 @@ jobs:
       - name: Send Teams notification
         if: ${{ needs.deploy-changes.outputs.should_notify == 'true' }}
         run: |
+          echo "${{ github.event.sender.login }}"
+          echo "${{ github.event.merge_group.head_commit.url }}"
           chmod +x ./devops-scripts/runTeamsNotification.sh
           ./devops-scripts/runTeamsNotification.sh
         env:
