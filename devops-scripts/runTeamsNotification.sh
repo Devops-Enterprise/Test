@@ -11,10 +11,10 @@ payload=$(cat <<EOF
                 "activityTitle": " ",
                 "facts": [
                         {"name": "Failed job:", "value": "$JOB_NAME"},
-                        {"name": "Author:", "value": "${FULL_NAME:-$GITHUB_EVENT_SENDER_LOGIN}"},
+                        {"name": "Author:", "value": "$FULL_NAME"},
                         {"name": "Squad:", "value": "${SQUAD_NAME:-Not provided}"},
                         {"name": "Branch/Tag:", "value": "$GITHUB_BRANCH"},
-                        {"name": "PR Link:", "value": "${PR_LINK:-${GITHUB_EVENT_MERGE_COMMIT:-'Not a PR ('$GITHUB_EVENT_NAME')'}}"},
+                        {"name": "PR Link:", "value": "${PR_LINK:-Not a PR, workflow triggered by ${GITHUB_EVENT_NAME:-'-'} event}"},
                         {"name": "Action URL:", "value": "$GITHUB_URL/$GITHUB_REPO/actions/runs/$GITHUB_RUN"}
                       ],
                 "markdown": true
