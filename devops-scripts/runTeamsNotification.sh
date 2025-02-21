@@ -2,7 +2,7 @@
 # script sends notification on DevOps Auto Notification teams channel on job failure
 # echo "Sending notification to Teams channel"
 echo "Sending notification to Teams channel"
-
+echo "$GITHUB_EVENT_SENDER_LOGIN"
 payload=$(cat <<EOF
           {
             "text": "**DevOps TEST - GitHub Actions workflow failed - '$GITHUB_WORKFLOW'**",
@@ -11,9 +11,10 @@ payload=$(cat <<EOF
                 "activityTitle": " ",
                 "facts": [
                         {"name": "Failed job:", "value": "$JOB_NAME"},
-                        {"name": "Author:", "value": "$FULL_NAME"},
+                        {"name": "Author:", "value": "${FULL_NAME:-$GITHUB_EVENT_SENDER_LOGIN}"},
+                        {"name": "Squad:", "value": "${SQUAD_NAME:-Not provided}"},
                         {"name": "Branch/Tag:", "value": "$GITHUB_BRANCH"},
-                        {"name": "PR Link:", "value": "${PR_LINK:-Not a PR, wokflow triggered by ${GITHUB_EVENT_NAME:-'-'} event}"},
+                        {"name": "PR Link:", "value": "${PR_LINK:-${GITHUB_EVENT_MERGE_COMMIT:-'Not a PR ('$GITHUB_EVENT_NAME')'}}"},
                         {"name": "Action URL:", "value": "$GITHUB_URL/$GITHUB_REPO/actions/runs/$GITHUB_RUN"}
                       ],
                 "markdown": true
