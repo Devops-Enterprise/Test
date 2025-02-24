@@ -80,6 +80,13 @@ jobs:
       should_notify: ${{ steps.check.outputs.should_notify }} 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Get scripts
+        run: |
+          git checkout main-workflows
+          git sparse-checkout init --cone
+          git sparse-checkout set devops-scripts
+          ls devops-scripts
+      
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
