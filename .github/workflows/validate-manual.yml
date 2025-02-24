@@ -84,17 +84,19 @@ jobs:
         with:
           fetch-depth: 0
           
+      - name: Get current branch
+        run: |
+          BRANCH_NAME=$(echo ${GITHUB_REF} | sed 's/refs\/heads\///')
+          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+          
       - name: Get scripts from main-workflows branch
         run: |
           git fetch origin main-workflows
           git checkout main-workflows
           git sparse-checkout init --cone
           git sparse-checkout set devops-scripts
+          git checkout $BRANCH_NAME
 
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-    
       # Now that you have the devops-scripts directory, you can access tempFolder.sh
       - name: Validate src-temp folder changes
         id: temp_folder
