@@ -82,6 +82,8 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Get scripts
         run: |
+          git status
+          ls devops-scripts
           git checkout main-workflows
           git sparse-checkout init --cone
           git sparse-checkout set devops-scripts
