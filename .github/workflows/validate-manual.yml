@@ -86,7 +86,7 @@ jobs:
           
       - name: Get current branch
         run: |
-          BRANCH_NAME=$(echo ${GITHUB_REF} | sed 's/refs\/heads\///')
+          BRANCH_NAME=$( [ -n "$GITHUB_HEAD_REF" ] && echo "$GITHUB_HEAD_REF" || echo "$(echo ${GITHUB_REF} | sed 's/refs\/heads\///')" )
           echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
           
       - name: Get scripts from main-workflows branch
