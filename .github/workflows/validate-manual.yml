@@ -86,16 +86,11 @@ jobs:
           
       - name: Get scripts
         run: |
-          git status
-          ls devops-scripts
-          git checkout main-workflows
           git sparse-checkout init --cone
+          git fetch origin main-workflows
           git sparse-checkout set devops-scripts
+          ls
           ls devops-scripts
-      
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Validate src-temp folder changes
         id: temp_folder
