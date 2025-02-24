@@ -84,19 +84,17 @@ jobs:
         with:
           fetch-depth: 0
           
-      - name: Get scripts
+      - name: Get scripts from main-workflows branch
         run: |
-          git sparse-checkout init --cone
           git fetch origin main-workflows
+          git checkout main-workflows
+          git sparse-checkout init --cone
           git sparse-checkout set devops-scripts
-          ls
-          ls devops-scripts
-
+    
+      # Now that you have the devops-scripts directory, you can access tempFolder.sh
       - name: Validate src-temp folder changes
         id: temp_folder
         run: | 
-          git status
-          echo "good"
           chmod +x ./devops-scripts/tempFolder.sh
           ./devops-scripts/tempFolder.sh
 
