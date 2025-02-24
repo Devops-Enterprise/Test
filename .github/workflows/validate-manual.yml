@@ -80,7 +80,6 @@ jobs:
       should_notify: ${{ steps.check.outputs.should_notify }} 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
