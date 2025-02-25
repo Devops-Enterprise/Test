@@ -84,15 +84,10 @@ jobs:
         with:
           fetch-depth: 0
           
-      - name: Get current branch
-        run: |
-          BRANCH_NAME=$( [ -n "$GITHUB_HEAD_REF" ] && echo "$GITHUB_HEAD_REF" || echo "$(echo ${GITHUB_REF} | sed 's/refs\/heads\///')" )
-          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
-          
       - name: Get scripts from main-workflows branch
         run: |
-          git sparse-checkout init --cone
           git fetch origin main-workflows
+          git sparse-checkout init --cone
           git sparse-checkout set devops-scripts/
           git checkout main-workflows -- devops-scripts/
 
