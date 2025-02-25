@@ -96,6 +96,7 @@ jobs:
           git sparse-checkout init --cone
           git sparse-checkout set devops-scripts
           git checkout $BRANCH_NAME
+          git sparse-checkout disable
 
       # Now that you have the devops-scripts directory, you can access tempFolder.sh
       - name: Validate src-temp folder changes
