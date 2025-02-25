@@ -86,7 +86,6 @@ jobs:
           
       - name: Get scripts from main-workflows branch
         run: |
-          git fetch --all  # Ensure all remote branches are available
           git checkout origin/main-workflows -- devops-scripts
           git add devops-scripts/
 
