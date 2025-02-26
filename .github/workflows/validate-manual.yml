@@ -83,11 +83,18 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
+          
+      - name: Get scripts from main-workflows branch
+        run: |
+          git checkout origin/main-workflows -- devops-scripts
+          
+      # Now that you have the devops-scripts directory, you can access tempFolder.sh
       - name: Validate src-temp folder changes
         id: temp_folder
         run: | 
-          echo "good"
+          cat test.txt
+          chmod +x ./devops-scripts/tempFolder.sh
+          ./devops-scripts/tempFolder.sh
 
 #      - name: Get npm directory
 #        id: npm-dir
