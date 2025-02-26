@@ -84,9 +84,9 @@ jobs:
         with:
           fetch-depth: 0
           
-      - name: Get scripts from main-workflows branch
+      - name: Get scripts from main branch
         run: |
-          git checkout origin/main-workflows -- devops-scripts
+          git checkout origin/main -- devops-scripts
           
       # Now that you have the devops-scripts directory, you can access tempFolder.sh
       - name: Validate src-temp folder changes
